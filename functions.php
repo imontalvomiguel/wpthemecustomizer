@@ -4,19 +4,24 @@ function wpt_register_theme_customizer( $wp_customize ) {
 // Todos nuestros sections, settings, y controls se agregarán aquí
   //var_dump( $wp_customize );
 
-  // Titulos personalizados para los settings por default de WordPress
+  // Titulos personalizados para los settings por default de WordPress (title_tagline)
   $wp_customize->get_section( 'title_tagline' )->title = __( 'Nombre del Sitio y Descripción', 'mytheme' );
   $wp_customize->get_control( 'blogname' )->label = __( 'Nombre del Sitio', 'mytheme' );
   $wp_customize->get_control( 'blogdescription' )->label = __( 'Descripción del Sitio', 'mytheme' );
   $wp_customize->get_setting( 'blogname' )->transport = 'postMessage';
   $wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
 
-  // Personalizando títulos para configuración de página inicial
+  // Personalizando títulos para configuración de página inicial (static_front_page)
   $wp_customize->get_section( 'static_front_page' )->title = __( 'Preferencias de Página Inicial', 'mytheme' );
   $wp_customize->get_section( 'static_front_page' )->priority = 20;
   $wp_customize->get_control( 'show_on_front' )->label = __( 'Establece las preferencias de la página de inicio', 'mytheme' );
   $wp_customize->get_control( 'page_on_front' )->label = __( 'Página inicial', 'mytheme' );
   $wp_customize->get_control( 'page_for_posts' )->label = __( 'Página para listado de posts', 'mytheme' );
+
+  // Personalizando los títulos para la sección de background de WordPress (background_image)
+  // WordPress sabe que esto debe ser aplicado a tu body, entonces sabe como hacerlo con javascript y usa transport=>'postMessage'
+  $wp_customize->get_section( 'background_image' )->title = __( 'Fondo del tema' );
+  $wp_customize->get_control( 'background_color' )->section = 'background_image';
 
 }
 add_action( 'customize_register', 'wpt_register_theme_customizer' );
@@ -47,4 +52,9 @@ function wpt_theme_styles() {
 }
 add_action( 'wp_enqueue_scripts', 'wpt_theme_styles' );
 
-
+// Habilitar las configuraciones de background para un tema (secciones por default pero tenemos que habilitarlas)
+$defaults = array(
+  'default-color' => '#ecf0f1',
+  'default-image' => get_template_directory_uri() . '/img/background.png'
+);
+add_theme_support( 'custom-background', $defaults );
