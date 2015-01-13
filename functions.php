@@ -29,6 +29,30 @@ function wpt_register_theme_customizer( $wp_customize ) {
   // Personalizando la sección nav
   $wp_customize->get_section( 'nav' )->title = __( 'Opciones de Menu', 'mytheme' );
 
+  // Creando nuestros propios paneles (agrupando secciones)
+  $wp_customize->add_panel( 'general_settings', array(
+    'priority'       => 10,
+    'theme_supports' => '',
+    'title'          => __( 'Opciones generales del tema', 'mytheme' ),
+    'description'    => __( 'Establece las configuraciones generales para el tema', 'mytheme' )
+  ) );
+
+  $wp_customize->add_panel( 'design_settings', array(
+    'priority'       => 20,
+    'theme_supports' => '',
+    'title'          => __( 'Opciones de diseño del tema', 'mytheme' ),
+    'description'    => __( 'Establece las configuraciones de diseño para el tema', 'mytheme' )
+  ) );
+
+  // Asignando secciones a nuestros paneles personalizados.
+  $wp_customize->get_section( 'title_tagline' )->panel = 'general_settings';
+  $wp_customize->get_section( 'nav' )->panel = 'general_settings';
+  $wp_customize->get_section( 'static_front_page' )->panel = 'general_settings';
+
+  $wp_customize->get_section( 'header_image' )->panel = 'design_settings';
+  $wp_customize->get_section( 'colors' )->panel = 'design_settings';
+  $wp_customize->get_section( 'background_image' )->panel = 'design_settings';
+
 }
 add_action( 'customize_register', 'wpt_register_theme_customizer' );
 
