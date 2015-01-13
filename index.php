@@ -28,6 +28,11 @@
       <?php endwhile; endif; ?>
     </div>
 
+    <aside>
+      <?php dynamic_sidebar( 'main_widget' ); ?>
+      <?php dynamic_sidebar( 'secondary_widget' ); ?>
+    </aside>
+
     <div id="footer">
       <p class="site-description">
         <?php bloginfo( 'description' ); ?>

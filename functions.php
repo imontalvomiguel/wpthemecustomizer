@@ -99,3 +99,21 @@ function register_my_menu() {
   register_nav_menu('header-menu',__( 'Header Menu' ));
 }
 add_action( 'init', 'register_my_menu' );
+
+// Agreando áres de widgets a nuestro tema
+function wpt_create_widget( $name, $id, $description ) {
+
+  register_sidebar(array(
+    'name' => __( $name ),
+    'id' => $id,
+    'description' => __( $description ),
+    'before_widget' => '<div class="widget">',
+    'after_widget' => '</div>',
+    'before_title' => '<h3>',
+    'after_title' => '</h3>'
+  ));
+
+}
+wpt_create_widget( 'Main Widget', 'main_widget', 'For testing purposes' );
+wpt_create_widget( 'Secondary Widget', 'secondary_widget', 'Also for testing purposes' );
+
