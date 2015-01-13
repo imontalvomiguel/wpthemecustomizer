@@ -18,4 +18,24 @@
     } );
   } );
 
+  wp.customize( 'header_textcolor', function( value ) {
+    value.bind( function( to ) {
+      if (to === 'blank') {
+        $( '.site-title' ).css( {
+          'display': 'absolute',
+          'clip': 'rect(1px, 1px, 1px, 1px)'
+        } );
+      } else {
+        $( '.site-title' ).css( {
+          'position': 'static',
+          'clip': 'auto'
+        } );
+
+        $( '.site-title a' ).css( {
+          'color': to
+        } );
+      }
+    } );
+  } );
+
 })( jQuery );

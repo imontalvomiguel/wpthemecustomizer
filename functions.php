@@ -2,7 +2,7 @@
 
 function wpt_register_theme_customizer( $wp_customize ) {
 // Todos nuestros sections, settings, y controls se agregarán aquí
-  //var_dump( $wp_customize );
+  //var_dump( $wp_customize->settings() );
 
   // Titulos personalizados para los settings por default de WordPress (title_tagline)
   $wp_customize->get_section( 'title_tagline' )->title = __( 'Nombre del Sitio y Descripción', 'mytheme' );
@@ -22,6 +22,9 @@ function wpt_register_theme_customizer( $wp_customize ) {
   // WordPress sabe que esto debe ser aplicado a tu body, entonces sabe como hacerlo con javascript y usa transport=>'postMessage'
   $wp_customize->get_section( 'background_image' )->title = __( 'Fondo del tema' );
   $wp_customize->get_control( 'background_color' )->section = 'background_image';
+
+  // Personalizando la sección custom-header
+  $wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
 
 }
 add_action( 'customize_register', 'wpt_register_theme_customizer' );
@@ -58,3 +61,32 @@ $defaults = array(
   'default-image' => get_template_directory_uri() . '/img/background.png'
 );
 add_theme_support( 'custom-background', $defaults );
+
+// Habilitar la sección de header_image
+$args = array(
+  'default-image' => get_template_directory_uri() .'/img/header.png',
+  'default-text-color' => '2c3e50',
+  'header-text' => true,
+  'uploads' => true,
+  'wp-head-callback' => 'mytheme_style_header'
+);
+add_theme_support( 'custom-header', $args );
+
+// Callback para actualizar los estilos del header
+function mytheme_style_header() {
+  $text_color = get_header_textcolor();
+  ?>
+  <style>
+    #header .site-title a
+    {
+      color: #<?php echo esc_attr( $text_color ); ?>;
+    }
+    <?php if( display_header_text() != true ) : ?>
+    .site-title
+    {
+      display: none;
+    }
+    <?php endif; ?>
+  </style>
+  <?php
+}
