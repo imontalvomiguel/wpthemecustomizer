@@ -23,8 +23,11 @@ function wpt_register_theme_customizer( $wp_customize ) {
   $wp_customize->get_section( 'background_image' )->title = __( 'Fondo del tema' );
   $wp_customize->get_control( 'background_color' )->section = 'background_image';
 
-  // Personalizando la sección custom-header
+  // Personalizando la sección custom-header (transport postMessage para header_textcolor)
   $wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
+
+  // Personalizando la sección nav
+  $wp_customize->get_section( 'nav' )->title = __( 'Opciones de Menu', 'mytheme' );
 
 }
 add_action( 'customize_register', 'wpt_register_theme_customizer' );
@@ -90,3 +93,9 @@ function mytheme_style_header() {
   </style>
   <?php
 }
+
+// Registrando el menu de navegación
+function register_my_menu() {
+  register_nav_menu('header-menu',__( 'Header Menu' ));
+}
+add_action( 'init', 'register_my_menu' );

@@ -17,6 +17,8 @@
           <img src="<?php header_image(); ?>" alt="Header Image">
         </div>
       <?php endif; ?>
+
+      <?php wp_nav_menu( array( 'theme-location' => 'header-menu' ) ); ?>
     </div>
 
     <div id="maincontent">
