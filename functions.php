@@ -53,6 +53,27 @@ function wpt_register_theme_customizer( $wp_customize ) {
   $wp_customize->get_section( 'colors' )->panel = 'design_settings';
   $wp_customize->get_section( 'background_image' )->panel = 'design_settings';
 
+  // Creando una nueva sección (custom_logo)
+  $wp_customize->add_section( 'custom_logo', array(
+    'title' => __( 'Cambiar logotipo', 'mytheme' ),
+    'panel' => 'design_settings',
+    'priority' => 30
+  ) );
+
+  // Creando un nuevo setting (mytheme_logo)
+  $wp_customize->add_setting( 'mytheme_logo', array(
+    'default' => get_template_directory_uri() . '/img/logo.png',
+    'transport' => 'postMessage'
+  ) );
+
+  // Creando el control (para mytheme_logo)
+  $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'mytheme_logo', array(
+    'label' => __( 'Cambiar el logo', 'mytheme' ),
+    'section' => 'custom_logo',
+    'settings' => 'mytheme_logo',
+    'context' => 'mytheme_custom_logo'
+  ) ) );
+
 }
 add_action( 'customize_register', 'wpt_register_theme_customizer' );
 

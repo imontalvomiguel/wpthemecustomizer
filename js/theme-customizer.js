@@ -22,18 +22,28 @@
     value.bind( function( to ) {
       if (to === 'blank') {
         $( '.site-title' ).css( {
-          'display': 'absolute',
-          'clip': 'rect(1px, 1px, 1px, 1px)'
+          'display': 'none'
         } );
       } else {
         $( '.site-title' ).css( {
-          'position': 'static',
-          'clip': 'auto'
+          'display': 'block'
         } );
 
         $( '.site-title a' ).css( {
           'color': to
         } );
+      }
+    } );
+  } );
+
+  wp.customize( 'mytheme_logo', function( value ) {
+    value.bind( function( to ) {
+      debugger;
+      if( to == '') {
+        $( '#logo' ).hide();
+      } else {
+        $( '#logo' ).show();
+        $( '#logo' ).attr( 'src', to );
       }
     } );
   } );

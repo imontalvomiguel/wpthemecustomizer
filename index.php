@@ -7,7 +7,12 @@
 
 <body <?php body_class(); ?>>
   <div class="container">
+
     <div id="header">
+      <?php if ( !empty( get_theme_mod( 'mytheme_logo' ) ) ) : ?>
+      <img id="logo" src="<?php echo get_theme_mod('mytheme_logo'); ?>" alt="image-logo">
+      <?php endif; ?>
+
       <p class="site-title">
         <a href="<?php bloginfo( 'url' ); ?>"><?php bloginfo( 'title' ); ?></a>
       </p>
