@@ -21,11 +21,11 @@
   wp.customize( 'header_textcolor', function( value ) {
     value.bind( function( to ) {
       if (to === 'blank') {
-        $( '.site-title' ).css( {
+        $( '.site-title, .site-description' ).css( {
           'display': 'none'
         } );
       } else {
-        $( '.site-title' ).css( {
+        $( '.site-title, .site-description' ).css( {
           'display': 'block'
         } );
 
@@ -38,12 +38,21 @@
 
   wp.customize( 'mytheme_logo', function( value ) {
     value.bind( function( to ) {
-      debugger;
       if( to == '') {
         $( '#logo' ).hide();
       } else {
         $( '#logo' ).show();
         $( '#logo' ).attr( 'src', to );
+      }
+    } );
+  } );
+
+  wp.customize( 'mytheme_footer_text', function( value ) {
+    value.bind( function( to ) {
+      if ( to ) {
+        $( '#footer-text' ).text( to ).show();
+      } else {
+        $( '#footer-text' ).hide();
       }
     } );
   } );

@@ -1,7 +1,7 @@
 <?php
 
 function wpt_register_theme_customizer( $wp_customize ) {
-// Todos nuestros sections, settings, y controls se agregarán aquí
+  // Todos nuestros sections, settings, y controls se agregarán aquí
   //var_dump( $wp_customize->settings() );
 
   // Titulos personalizados para los settings por default de WordPress (title_tagline)
@@ -25,6 +25,7 @@ function wpt_register_theme_customizer( $wp_customize ) {
 
   // Personalizando la sección custom-header (transport postMessage para header_textcolor)
   $wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
+  $wp_customize->get_control( 'header_textcolor' )->label = __( 'Color del texto en header', 'mytheme' );
 
   // Personalizando la sección nav
   $wp_customize->get_section( 'nav' )->title = __( 'Opciones de Menu', 'mytheme' );
@@ -72,6 +73,28 @@ function wpt_register_theme_customizer( $wp_customize ) {
     'section' => 'custom_logo',
     'settings' => 'mytheme_logo',
     'context' => 'mytheme_custom_logo'
+  ) ) );
+
+  // Creando una nueva sección para custom_footer_text
+  $wp_customize->add_section( 'custom_footer_text', array(
+    'title' => __( 'Cambiar el texto del footer', 'mytheme' ),
+    'panel' => 'general_settings',
+    'prioritiy' => 1000
+  ) );
+
+  // Agregando el setting text_footer
+  $wp_customize->add_setting( 'mytheme_footer_text', array(
+    'default' => __( 'Cambiar el texto del footer', 'mytheme' ),
+    'transport' => 'postMessage',
+    'sanitize_callback' => 'sanitize_text'
+  ) );
+
+  // Agregando el control para text_footer
+  $wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'mytheme_footer_text', array(
+    'label' => __( 'Texto para footer', 'mytheme' ),
+    'section' => 'custom_footer_text',
+    'settings' => 'mytheme_footer_text',
+    'type' => 'text'
   ) ) );
 
 }
@@ -130,7 +153,7 @@ function mytheme_style_header() {
       color: #<?php echo esc_attr( $text_color ); ?>;
     }
     <?php if( display_header_text() != true ) : ?>
-    .site-title
+    .site-title, .site-description
     {
       display: none;
     }
@@ -162,3 +185,7 @@ function wpt_create_widget( $name, $id, $description ) {
 wpt_create_widget( 'Main Widget', 'main_widget', 'For testing purposes' );
 wpt_create_widget( 'Secondary Widget', 'secondary_widget', 'Also for testing purposes' );
 
+// Sanitize a string from user input or from the db (solo guardar texto simple no código en la db)
+function sanitize_text( $text ) {
+  return sanitize_text_field( $text );
+}

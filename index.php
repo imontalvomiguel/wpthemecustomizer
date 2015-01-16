@@ -10,12 +10,14 @@
 
     <div id="header">
       <?php if ( !empty( get_theme_mod( 'mytheme_logo' ) ) ) : ?>
-      <img id="logo" src="<?php echo get_theme_mod('mytheme_logo'); ?>" alt="image-logo">
+      <img id="logo" src="<?php echo get_theme_mod( 'mytheme_logo' ); ?>" alt="image-logo">
       <?php endif; ?>
 
       <p class="site-title">
         <a href="<?php bloginfo( 'url' ); ?>"><?php bloginfo( 'title' ); ?></a>
       </p>
+
+      <p class="site-description"><?php bloginfo( 'description' ); ?></p>
 
       <?php if ( !empty( get_header_image() ) ) : ?>
         <div id="banner">
@@ -39,9 +41,9 @@
     </aside>
 
     <div id="footer">
-      <p class="site-description">
-        <?php bloginfo( 'description' ); ?>
-      </p>
+    <?php if ( !empty( get_theme_mod( 'mytheme_footer_text' ) ) ) : ?>
+      <p id="footer-text"><?php echo get_theme_mod( 'mytheme_footer_text' ); ?></p>
+    <?php endif; ?>
     </div>
 
   </div>
