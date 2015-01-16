@@ -136,6 +136,26 @@ function wpt_register_theme_customizer( $wp_customize ) {
       '32' => '32px'
     ),
   ) ) );
+
+  // Sección para css personalizados
+  $wp_customize->add_section( 'custom_css', array(
+    'title' => __( 'Escribe tus propio CSS', 'mytheme'),
+    'panel' => 'design_settings',
+    'priority' => 2000
+  ) );
+
+  // Setting para el css personalizado
+  $wp_customize->add_setting( 'mytheme_own_css', array(
+    'sanitize_callback' => 'sanitize_text_area'
+  ) );
+
+  // Control para css personalizado
+  $wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'mytheme_own_css', array(
+    'label' => __( 'Aquí escribes tu css personalizado', 'mytheme' ),
+    'section' => 'custom_css',
+    'settings' => 'mytheme_own_css',
+    'type' => 'textarea'
+  ) ) );
 }
 add_action( 'customize_register', 'wpt_register_theme_customizer' );
 
@@ -203,6 +223,10 @@ function mytheme_style_header() {
       font-size: <?php echo get_theme_mod( 'mytheme_h1_fontsize' ); ?>px;
     }
 
+    <?php if ( !empty( get_theme_mod( 'mytheme_own_css' ) ) ) : ?>
+    <?php echo get_theme_mod( 'mytheme_own_css' ); ?>
+    <?php endif; ?>
+
   </style>
   <?php
 }
@@ -233,4 +257,8 @@ wpt_create_widget( 'Secondary Widget', 'secondary_widget', 'Also for testing pur
 // Sanitize a string from user input or from the db (solo guardar texto simple no código en la db)
 function sanitize_text( $text ) {
   return sanitize_text_field( $text );
+}
+
+function sanitize_text_area( $text ) {
+  return esc_textarea( $text );
 }
