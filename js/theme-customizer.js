@@ -57,4 +57,22 @@
     } );
   } );
 
+  wp.customize( 'mytheme_h1_color', function( value) {
+    value.bind( function( to ) {
+      if ( to ) {
+        $( 'h1 > a' ).css( {
+          'color': to
+        } );
+      }
+    } );
+  } );
+
+  wp.customize( 'mytheme_h1_fontsize', function( value) {
+    value.bind( function( to) {
+      $( 'h1 > a' ).css( {
+        'font-size': to + 'px'
+      } );
+    } );
+  } );
+
 })( jQuery );

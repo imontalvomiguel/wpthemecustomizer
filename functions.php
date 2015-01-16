@@ -97,6 +97,45 @@ function wpt_register_theme_customizer( $wp_customize ) {
     'type' => 'text'
   ) ) );
 
+  // Agregando sección para estílos de h1
+  $wp_customize->add_section( 'h1_styles', array(
+    'title' => __( 'Cambiar estilos de los títulos h1', 'mytheme' ),
+    'panel' => 'design_settings',
+    'priority' => 100
+  ) );
+
+  // Setting para el color de h1
+  $wp_customize->add_setting( 'mytheme_h1_color', array(
+    'default' => '#2980b9',
+    'transport' => 'postMessage'
+  ) );
+
+  // Control para el color de setting h1
+  $wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'mytheme_h1_color', array(
+    'label' => __( 'Color para los h1', 'mytheme'),
+    'section' => 'h1_styles',
+    'settigs' => 'mytheme_h1_color',
+  ) ) );
+
+  // Setting para el font-size de h1
+  $wp_customize->add_setting( 'mytheme_h1_fontsize', array(
+    'default' => '24px',
+    'transport' => 'postMessage'
+  ) );
+
+  // Control para setting font-size
+  $wp_customize->add_control( new WP_Customize_Control( $wp_customize, 'mytheme_h1_fontsize', array(
+    'label' => __( 'Tamaño de fuente para los h1', 'mytheme'),
+    'section' => 'h1_styles',
+    'settings' => 'mytheme_h1_fontsize',
+    'type' => 'select',
+    'choices' => array(
+      '18' => '18px',
+      '22' => '22px',
+      '24' => '24px',
+      '32' => '32px'
+    ),
+  ) ) );
 }
 add_action( 'customize_register', 'wpt_register_theme_customizer' );
 
@@ -158,6 +197,12 @@ function mytheme_style_header() {
       display: none;
     }
     <?php endif; ?>
+    h1 a
+    {
+      color: <?php echo get_theme_mod( 'mytheme_h1_color' ); ?>;
+      font-size: <?php echo get_theme_mod( 'mytheme_h1_fontsize' ); ?>px;
+    }
+
   </style>
   <?php
 }
